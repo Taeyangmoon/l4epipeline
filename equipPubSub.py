@@ -132,7 +132,7 @@ total_data_values = []
 key_value_count = 0
 file_count = 0
 for CSV_FILE_NAME in CSV_FILE_NAMES :
-    with open(CSV_FILE_NAME, mode='r') as csv_file:
+    with open('data/' + CSV_FILE_NAME, mode='r') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
         for row in csv_reader:
