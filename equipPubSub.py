@@ -121,7 +121,7 @@ CSV_FILE_NAMES = []
 for i in range(24) :
     if i < 9 :
         CSV_FILE_NAMES.append("subsystem-0" + str(i+1) + ".csv")
-    elif i != 16 :
+    else :
         CSV_FILE_NAMES.append("subsystem-" + str(i+1) + ".csv")
         
 
