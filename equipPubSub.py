@@ -157,11 +157,15 @@ for CSV_FILE_NAME in CSV_FILE_NAMES :
         for row in csv_reader:
             if line_count == 0:
                 key_values = row
+                # key_values.insert(0, 'TimeStamp')
                 key_value_count = len(key_values)
                 line_count +=1
+                # print(key_values)
             else:
                 temp_val = {}
                 data_val = row
+                # tm = datetime.datetime.now()
+                # data_val.insert(0, str(tm))
                 count = 0
                 for value in key_values:
                     temp_val[value] = data_val[count]
@@ -169,6 +173,7 @@ for CSV_FILE_NAME in CSV_FILE_NAMES :
                 data_value[line_count] = temp_val
                 data_value[line_count]['Component'] = CSV_FILE_NAME.split('.')[0]
                 line_count +=1
+                # print(data_value)
     total_data_values.append(data_value)
     file_count +=1
     data_value = {}
@@ -184,12 +189,53 @@ for j in range(1,line_count+1):
         
         if args.mode == 'both' or args.mode == 'publish':
             messageJson = json.dumps(time_data_values, default=json_default)   
+            # messageJson = json.dumps(total_data_values[i][j], default=json_default)   
             try:
                  
                 myAWSIoTMQTTClient.publish(topic, messageJson, 1)
                 if args.mode == 'publish':
                     print('Published topic %s: %s\n' % (topic, messageJson))
+                #print(temp_data_val)
+                #print(data_value[value]['TimeStamp'])
             except:
                 print("Publish Failed.")
-    time.sleep(10)
-    
+    time.sleep(60)
+        
+        
+
+# for value in data_value:
+#     if args.mode == 'both' or args.mode == 'publish':
+#         messageJson = json.dumps(data_value[value], default=json_default)   
+#         try:
+             
+#             myAWSIoTMQTTClient.publish(topic, messageJson, 1)
+#             if args.mode == 'publish':
+#                 print('Published topic %s: %s\n' % (topic, messageJson))
+#             #print(temp_data_val)
+#             #print(data_value[value]['TimeStamp'])
+#             time.sleep(10)
+#         except:
+#             print("Publish Failed.")
+                
+
+
+
+        
+
+# Publish to the same topic in a loop forever
+# loopCount = 0
+# while True:
+#     if args.mode == 'both' or args.mode == 'publish':
+#         t = datetime.datetime.utcnow() 
+#         timeInSeconds = int((t-datetime(1970,1,1)).total_seconds())
+#         message = {}
+#         message['SensorId'] = 0
+#         message['SensorName'] = 'UltraSonic'
+#         message['TimeStamp'] = timeInSeconds
+#         message['Value'] = round(random.uniform(0.1, 9.9),2)
+#         messageJson = json.dumps(message)
+#         myAWSIoTMQTTClient.publish(topic, messageJson, 1)
+#         if args.mode == 'publish':
+#             print('Published topic %s: %s\n' % (topic, messageJson))
+#         loopCount += 1
+#     time.sleep(1)
